@@ -7,6 +7,6 @@ const router = express.Router();
 router.get('/room', verifyJWT, chatController.getRoomsByUser);
 router.post('/room/:receiver', verifyJWT, chatController.createRoom);
 router.get('/room-with-user/:receiver', verifyJWT, chatController.getRoomBetweenUsers);
-router.get('/message/:roomId', chatController.getMessage);
+router.get('/message/:roomId', verifyJWT, chatController.getMessage);
 
 module.exports = router;

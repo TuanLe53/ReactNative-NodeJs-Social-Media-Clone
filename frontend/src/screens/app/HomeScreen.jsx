@@ -12,7 +12,6 @@ export default function HomeScreen() {
     
     const [isConnected, setIsConnected] = useState(false);
 
-    
     useEffect(() => {
         socket.connect()
         socket.io.on('open', () => setIsConnected(true));
