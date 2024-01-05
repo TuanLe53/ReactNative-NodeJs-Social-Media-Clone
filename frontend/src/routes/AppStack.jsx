@@ -9,6 +9,7 @@ import ProfileScreen from '../screens/app/ProfileScreen';
 import CreatePostScreen from '../screens/app/CreatePostScreen';
 import PostDetailScreen from '../screens/app/PostDetail';
 import ChatRoom from '../screens/app/ChatRoom';
+import { useTheme } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -27,6 +28,8 @@ export default function AppStack() {
 }
 
 function TabNavigator() {
+    const { colors } = useTheme();
+
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -49,7 +52,7 @@ function TabNavigator() {
                 },
                 tabBarActiveTintColor: '#1DA1F2',
                 tabBarInactiveTintColor: '#AAB8C2',
-                tabBarStyle: {backgroundColor: '#14171A'},
+                tabBarStyle: {backgroundColor: colors.background},
                 headerShown: false,
             })}>
             
