@@ -50,9 +50,9 @@ export default function Post(props) {
                     <Text style={[styles.content, { color: colors.text }]}>{data.content}</Text>
                     <Pressable
                         onPress={()=> setIsExpand(!isExpand)}
-                        style={[styles.expand_btn, isExpand && {bottom: -2}]}
+                        style={[styles.expand_btn, isExpand && {bottom: -2}, {backgroundColor: colors.text_secondary}]}
                     >
-                        <Text style={{ color: colors.icon, textAlign: 'center' }}>{isExpand ? 'Hide' : 'Expand'}</Text>
+                        <Text style={{ color: colors.icon, textAlign: 'center' }}>{isExpand ? 'Hide' : 'More'}</Text>
                     </Pressable>
                 </View>
                     :
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         right: 40,
         bottom: 10,
         width: '77%',
-        backgroundColor: 'rgba(0,0,0,0.8)'
+        opacity: 0.8
     },
     img_container: {
         display: 'flex',
