@@ -47,15 +47,18 @@ export default function SendMessage(props) {
 
     return (
         <Input
-            containerStyle={[styles.container, {backgroundColor: colors.background}]}
+            containerStyle={[{ backgroundColor: colors.background, height: 50 }]}
+            inputContainerStyle={{}}
             inputStyle={styles.input}
             value={message}
             onChangeText={setMessage}
             onSubmitEditing={handleSendMessage}
+            rightIconContainerStyle={{padding: 4}}
             rightIcon={
                 <Ionicons
                     name='paper-plane'
                     size={24}
+                    color={colors.icon}
                     onPress={handleSendMessage}
             />}
         />
@@ -63,9 +66,6 @@ export default function SendMessage(props) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: 'pink',
-    },
     input: {
         backgroundColor: 'gray',
         borderRadius: 9,
