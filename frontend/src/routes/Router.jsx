@@ -1,9 +1,8 @@
 import { useContext } from 'react';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import AppStack from './AppStack';
 import AuthStack from './AuthStack'
 import AuthContext from '../context/AuthContext';
-import { useColorScheme } from 'react-native';
 import ThemeContext from '../context/ThemeContext';
 
 export default function Router() {
@@ -11,6 +10,7 @@ export default function Router() {
     const { theme } = useContext(ThemeContext);
     
     const darkTheme = {
+        dark: true,
         colors: {
             background: '#14171A',
             text: '#E7E9EA',
@@ -21,9 +21,10 @@ export default function Router() {
     }
 
     const lightTheme = {
+        dark: false,
         colors: {
-            background: 'white',
-            text: '#E7E9EA',
+            background: '#E7E9EA',
+            text: '#14171A',
             text_secondary: '#657786',
             icon: '#1DA1F2',
             icon_secondary: '#AAB8C2'
