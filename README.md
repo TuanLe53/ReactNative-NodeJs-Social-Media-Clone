@@ -11,7 +11,7 @@ A full-stack Social Media app built with ExpressJs, React Native.
   - React Navigation
   - Socket.IO-client
 
--Backend:
+- Backend:
   - NodeJs
   - ExpressJs
   - PostgreSQL
