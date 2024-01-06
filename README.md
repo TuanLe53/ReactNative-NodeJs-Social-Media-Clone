@@ -1,5 +1,5 @@
 # Social Media
-A full-stack Social Media app built with ExpressJs, React Native.
+A full-stack Social Media app built with ExpressJs, React Native and PostgreSQL.
 
 ###### 
 
