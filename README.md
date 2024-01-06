@@ -18,8 +18,8 @@ A full-stack Social Media app built with ExpressJs, React Native.
 - Allows the user to post images/text
 - Allows users to add comment
 - Allows users to edit profile and update avatar
-- Like function
-- Follow function
+- Like feature
+- Follow feature
 - Real-time chat
 - Search user by username
 
