@@ -3,7 +3,7 @@ A full-stack Social Media app built with ExpressJs, React Native.
 
 ###### 
 
-**Built With**
+## Built With
 - Frontend: 
   - React Native
   - Expo
