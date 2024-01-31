@@ -1,6 +1,9 @@
 # Social Media
 A full-stack Social Media app built with ExpressJs, React Native and PostgreSQL.
 
+## Screenshots
+
+
 ###### 
 
 ## Built With
@@ -28,3 +31,8 @@ A full-stack Social Media app built with ExpressJs, React Native and PostgreSQL.
 - Search user by username
 
 ## Installation
+
+```
+mkdir clone_folder
+cd clone_folder
+```
