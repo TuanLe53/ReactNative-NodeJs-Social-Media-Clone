@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     },
     username: {
         fontSize: 24,
-        fontWeight: 'bold'
+        fontWeight: "700"
     },
     bio_wrapper: {
         borderColor: 'black',
@@ -148,6 +148,6 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         textAlign: 'center',
         fontSize: 28,
-        fontWeight: 700
+        fontWeight: "700"
     }
 })
