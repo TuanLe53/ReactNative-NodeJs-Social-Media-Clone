@@ -68,9 +68,3 @@ CREATE TABLE message(
     created_by uuid NOT NULL REFERENCES account(id),
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
-
-
-SELECT room_id AS id, user_id, username, avatar FROM room_member LEFT JOIN account ON room_member.user_id = account.id WHERE room_id IN
-(SELECT room_id FROM room_member WHERE user_id = 'ad181f8f-4f3b-4220-b5ad-62eeef524782')
-AND
-user_id != 'ad181f8f-4f3b-4220-b5ad-62eeef524782';
