@@ -3,16 +3,14 @@ import { useNavigation, useTheme } from "@react-navigation/native";
 import { Overlay } from "@rneui/themed";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LikeBtn from "../LikeBtn";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import AvatarCustom from "../AvatarCustom";
-import { Button } from "@rneui/base";
-import AuthContext from "../../context/AuthContext";
+import Buttons from "./Buttons";
 
 const screenWidth = Dimensions.get('screen').width;
 const screenHeight = Dimensions.get('screen').height;
 
 export default function Post(props) {
-    const { user } = useContext(AuthContext);
     const { data } = props;
     const [visible, setVisible] = useState(false);
     const [imgIndex, setImgIndex] = useState(0);
@@ -32,8 +30,6 @@ export default function Post(props) {
 
     const [isOpen, setIsOpen] = useState(false);
     
-    
-
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -51,17 +47,7 @@ export default function Post(props) {
                 />
                 {isOpen &&
                     <View>
-                        <Button>
-                            Report
-                            <Ionicons name='alert-circle-outline' />
-                        </Button>
-                        {data.created_by === user.id &&
-                        
-                        <Button>
-                            Delete
-                            <Ionicons name='trash-outline'/>
-                        </Button>
-                        }
+                        <Buttons data={data} />
                     </View>    
                 }
             </View>
