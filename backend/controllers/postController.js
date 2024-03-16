@@ -159,8 +159,7 @@ const UnlikePost = async (req, res) => {
 }
 
 const DeletePost = async (req, res) => {
-    const { id } = req.user;
-    const { post_id } = req.body;
+    const { post_id } = req.params;
 
     pool.query('DELETE FROM post WHERE id = $1', [post_id], (err) => {
         if (err) {
