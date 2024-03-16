@@ -4,10 +4,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AuthContext from '../../context/AuthContext';
 
 import { useRoute } from '@react-navigation/native';
+import API_URL from '../../api/api_url';
 
 
 export default function Buttons(props) {
-    const { user } = useContext(AuthContext);
+    const { user, authState } = useContext(AuthContext);
     const { data } = props;
     const [isOpen, setIsOpen] = useState(false);
 
@@ -15,12 +16,14 @@ export default function Buttons(props) {
 
 
     const handleDelete = async () => {
-        console.log("Hehehe boy")
-        // let res = await fetch();
+        let res = await fetch(`${API_URL.POST}/${data.id}`, {
+            headers: { 'Authorization': `Bearer ${authState.authToken}` },
+            method: 'DELETE'
+        });
 
-        // if (res.status === 200) {
-            
-        // }
+        if (res.status === 200) {
+            setIsOpen(false)
+        }
     }
 
     return (
