@@ -158,4 +158,17 @@ const UnlikePost = async (req, res) => {
     })
 }
 
-module.exports = { getPosts, getPostByID, createPost, getPostsByUser, LikePost, UnlikePost };
+const DeletePost = async (req, res) => {
+    const { id } = req.user;
+    const { post_id } = req.body;
+
+    pool.query('DELETE FROM post WHERE id = $1', [post_id], (err) => {
+        if (err) {
+            return res.status(500).json({error: "Server error"})
+        }
+
+        res.status(200).json({message: 'Success'})
+    })
+}
+
+module.exports = { getPosts, getPostByID, createPost, getPostsByUser, LikePost, UnlikePost, DeletePost };
