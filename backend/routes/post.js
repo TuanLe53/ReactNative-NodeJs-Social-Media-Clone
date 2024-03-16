@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.get('', verifyJWT, postController.getPosts);
 router.post('', verifyJWT, uploadImage.uploadPostPhoto.array('photos', 4), postController.createPost);
+router.delete('', verifyJWT, postController.DeletePost);
 router.get('/:post_id', verifyJWT, postController.getPostByID);
 router.post('/:post_id/like', verifyJWT, postController.LikePost);
 router.delete('/:post_id/like', verifyJWT, postController.UnlikePost);
