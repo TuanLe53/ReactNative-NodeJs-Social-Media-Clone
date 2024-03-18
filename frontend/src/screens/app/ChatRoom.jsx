@@ -1,5 +1,5 @@
 import { Avatar } from '@rneui/themed';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -8,9 +8,11 @@ import SendMessage from '../../components/chat/SendMessage';
 import socket from '../../utils/socket';
 import Message from '../../components/chat/Message';
 import { useTheme } from '@react-navigation/native';
+import AuthContext from '../../context/AuthContext';
 
 export default function ChatRoom({route, navigation}) {
     const { receiver, id } = route.params;
+    const { authState } = useContext(AuthContext);
     const [roomId, setRoomId] = useState(id);
     const [messages, setMessages] = useState([]);
     const scrollViewRef = useRef();
@@ -18,7 +20,9 @@ export default function ChatRoom({route, navigation}) {
 
     useEffect(() => {
         const fetchMessage = async () => {
-            const res = await fetch(`${API_URL.CHAT}/message/${roomId}`);
+            const res = await fetch(`${API_URL.CHAT}/message/${roomId}`, {
+                headers: {'Authorization': `Bearer ${String(authState.authToken)}`}
+            });
             const data = await res.json();
             if (res.status === 200) {
                 setMessages(data)
