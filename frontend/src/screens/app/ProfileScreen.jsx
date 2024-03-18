@@ -10,13 +10,52 @@ import FollowBtn from '../../components/profile/FollowBtn';
 import AuthContext from '../../context/AuthContext';
 import MessageBtn from '../../components/profile/MessageBtn';
 import { useTheme } from '@react-navigation/native';
+import { useBoundStore } from '../../stores/store';
+import { useQuery } from '@tanstack/react-query';
+
+function UserPosts({ id }) {
+    const { authState } = useContext(AuthContext);
+
+    const userPosts = useBoundStore((state) => state.user_posts);
+    const setUserPosts = useBoundStore((state) => state.setUserPosts);
+
+    const fetchUserPosts = async () => {
+        const res = await fetch(`${API_URL.POST}/user/${id}`, {
+            headers: { 'Authorization': `Bearer ${String(authState.authToken)}` }
+        })
+        const data = await res.json()
+        setUserPosts(data)
+        return data
+    };
+
+    const { isError, isLoading } = useQuery({
+        queryKey: ['user_posts'],
+        queryFn: fetchUserPosts,
+    })
+
+    if (isLoading) return <ActivityIndicator />
+    if (isError) return <Text>Error retrieving posts</Text>
+
+    return (
+        <>
+        {userPosts.length === 0 ?
+            <Text style={styles.posts_container_text}>No posts yet</Text>
+            :
+            <>
+            {userPosts.map((post) => (
+                <Post data={post} key={post.id} />
+            ))}        
+            </>
+        }
+        </>
+    )
+}
 
 export default function ProfileScreen({ route }) {
     const { id } = route.params;
-    const { user, authState } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const isOwner = id === user.id;
     const [profile, setProfile] = useState();
-    const [posts, setPosts] = useState([]);
 
     const { colors } = useTheme();
     
@@ -32,22 +71,8 @@ export default function ProfileScreen({ route }) {
                 console.log(data.error)
             }
         };
-        
-        const fetchUserPosts = async () => {
-            const res = await fetch(`${API_URL.POST}/user/${id}`, {
-                headers: { 'Authorization': `Bearer ${String(authState.authToken)}` }
-            })
-            const data = await res.json()
-            if (res.status !== 200) {
-                return alert(data.error)
-            }
-            if (data.length !== 0) {
-                setPosts(data)
-            }
-        };
 
         fetchProfile();
-        fetchUserPosts();
     }, [])
 
     return (
@@ -80,15 +105,7 @@ export default function ProfileScreen({ route }) {
                     </View>
 
                     <View style={styles.posts_container}>
-                    {posts.length === 0 ?
-                        <Text style={styles.posts_container_text}>No posts yet</Text>
-                            :
-                        <>
-                            {posts.map((post) => (
-                                <Post data={post} key={post.id} />
-                            ))}        
-                        </>
-                    }
+                        <UserPosts id={id} />
                     </View>
                 </ScrollView>
                 :
