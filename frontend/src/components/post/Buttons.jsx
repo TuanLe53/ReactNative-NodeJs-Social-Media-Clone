@@ -2,7 +2,7 @@ import { Button, Dialog, Text } from '@rneui/base';
 import { useContext, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AuthContext from '../../context/AuthContext';
-
+import { useBoundStore } from '../../stores/store';
 import { useRoute } from '@react-navigation/native';
 import API_URL from '../../api/api_url';
 
@@ -11,6 +11,7 @@ export default function Buttons(props) {
     const { user, authState } = useContext(AuthContext);
     const { data } = props;
     const [isOpen, setIsOpen] = useState(false);
+    const removePost = useBoundStore((state) => state.removePost);
 
     const route = useRoute();
 
@@ -22,6 +23,7 @@ export default function Buttons(props) {
         });
 
         if (res.status === 200) {
+            removePost(data.id)
             setIsOpen(false)
         }
     }
