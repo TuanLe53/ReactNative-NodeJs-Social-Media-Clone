@@ -17,7 +17,6 @@ export default function Buttons(props) {
 
     const route = useRoute();
 
-
     const handleDelete = async () => {
         let res = await fetch(`${API_URL.POST}/${data.id}`, {
             headers: { 'Authorization': `Bearer ${authState.authToken}` },
