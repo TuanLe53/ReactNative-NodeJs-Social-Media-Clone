@@ -11,7 +11,9 @@ export default function Buttons(props) {
     const { user, authState } = useContext(AuthContext);
     const { data } = props;
     const [isOpen, setIsOpen] = useState(false);
+
     const removePost = useBoundStore((state) => state.removePost);
+    const removeUserPost = useBoundStore((state) => state.removeUserPost);
 
     const route = useRoute();
 
@@ -24,6 +26,7 @@ export default function Buttons(props) {
 
         if (res.status === 200) {
             removePost(data.id)
+            removeUserPost(data.id)
             setIsOpen(false)
         }
     }
