@@ -10,11 +10,6 @@ CREATE TABLE account(
     PRIMARY KEY (id)
 );
 
-CREATE TABLE follow(
-    user_id uuid NOT NULL REFERENCES account(id),
-    follower uuid NOT NULL REFERENCES account(id)
-);
-
 CREATE TABLE Refresh_Token(
     account_id uuid NOT NULL REFERENCES account(id),
     refresh_token VARCHAR NOT NULL,
@@ -22,6 +17,19 @@ CREATE TABLE Refresh_Token(
     valid_until TIMESTAMPTZ NOT NULL DEFAULT NOW() + INTERVAL '1 DAY',
     PRIMARY KEY (account_id)
 );
+
+CREATE TABLE reset_password_token(
+    user_id uuid NOT NULL UNIQUE REFERENCES account(id),
+    token VARCHAR NOT NULL UNIQUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    valid_until TIMESTAMPTZ NOT NULL DEFAULT NOW() + INTERVAL '1 hour'
+);
+
+CREATE TABLE follow(
+    user_id uuid NOT NULL REFERENCES account(id),
+    follower uuid NOT NULL REFERENCES account(id)
+);
+
 
 CREATE TABLE Post(
     id uuid DEFAULT uuid_generate_v4 (),
