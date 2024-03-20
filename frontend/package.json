@@ -30,7 +30,8 @@
     "react-native-safe-area-view": "^1.1.1",
     "socket.io-client": "^4.7.2",
     "validator": "^13.11.0",
-    "zustand": "^4.5.2"
+    "zustand": "^4.5.2",
+    "expo-linking": "~6.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
