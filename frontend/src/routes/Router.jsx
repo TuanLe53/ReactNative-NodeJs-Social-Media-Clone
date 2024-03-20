@@ -17,6 +17,7 @@ const config = {
                 Search: 'search'
             }
         },
+        ResetPassword: 'reset-password'
     }
 };
 
