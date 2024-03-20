@@ -5,7 +5,17 @@ import AuthStack from './AuthStack'
 import AuthContext from '../context/AuthContext';
 import ThemeContext from '../context/ThemeContext';
 
+import * as Linking from 'expo-linking';
+import { Text } from '@rneui/base';
+
+const prefix = Linking.createURL('/');
+
+
 export default function Router() {
+    const linking = {
+		prefixes: [prefix],
+	};
+
     const { authState } = useContext(AuthContext);
     const { theme } = useContext(ThemeContext);
     
@@ -32,7 +42,7 @@ export default function Router() {
     }
 
     return (
-        <NavigationContainer theme={theme ==='light' ? lightTheme : darkTheme}>
+        <NavigationContainer theme={theme ==='light' ? lightTheme : darkTheme} linking={linking} fallback={<Text>Loading...</Text>}>
             {authState.isAuth ?
                 <AppStack />
                 :
