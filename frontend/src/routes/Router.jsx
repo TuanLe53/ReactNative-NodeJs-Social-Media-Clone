@@ -9,12 +9,23 @@ import * as Linking from 'expo-linking';
 import { Text } from '@rneui/base';
 
 const prefix = Linking.createURL('/');
+const config = {
+    screens: {
+        App: {
+            screens: {
+                Home: 'home',
+                Search: 'search'
+            }
+        },
+    }
+};
 
+const linking = {
+    prefixes: [prefix, 'demo://app'],
+    config,
+};
 
 export default function Router() {
-    const linking = {
-		prefixes: [prefix],
-	};
 
     const { authState } = useContext(AuthContext);
     const { theme } = useContext(ThemeContext);
