@@ -137,4 +137,30 @@ const resetPasswordToken = async (req, res) => {
     return res.status(200).json({message: 'Reset password link has seen to your email'})
 }
 
-module.exports = { loginUser, registerUser, updateRefreshToken, resetPasswordToken };
+const resetPassword = async (req, res) => {
+    const { user_id, token, password } = req.body;
+
+    const tokenQuery = await pool.query('SELECT * FROM reset_password_token WHERE user_id = $1', [user_id]);
+    if (tokenQuery.rows.length === 0) {
+        return res.status(400).json({ error: 'Invalid token' });
+    }
+    const tokenData = tokenQuery.rows[0];
+
+    const isValid = await bcrypt.compare(token, tokenData['token']);
+    if (!isValid) {
+        return res.status(400).json({ error: 'Invalid token' });
+    }
+
+    const currentDate = new Date();
+    if (tokenData['valid_until'] < currentDate) {
+        return res.status(400).json({ error: 'Token expired' });
+    }
+
+    const hash = await bcrypt.hash(password, 10);
+    const updatePasswordQuery = await pool.query('UPDATE account SET pw = $1 WHERE id = $2', [hash, user_id]);
+    const deleteTokenQuery = await pool.query('DELETE FROM reset_password_token WHERE user_id = $1', [user_id]);
+
+    return res.status(200).json({ message: 'Success' });
+}
+
+module.exports = { loginUser, registerUser, updateRefreshToken, resetPasswordToken, resetPassword };
