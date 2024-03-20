@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const pool = require('../db/db');
+const sendResetPasswordEmail = require('../services/email');
 require('dotenv').config();
 
 const registerUser = async (req, res) => {
@@ -108,4 +110,31 @@ const updateRefreshToken = async (req, res) => {
     })
 }
 
-module.exports = { loginUser, registerUser, updateRefreshToken };
+const resetPasswordToken = async (req, res) => {
+    const { email } = req.body;
+    
+    //Check if user exists
+    const userQuery = await pool.query('SELECT id FROM account WHERE email = $1', [email]);
+    if (userQuery.rows.length === 0) {
+        return res.status(404).json({error: "User doesn't exists"})
+    };
+    const userId = userQuery.rows[0]['id'];
+
+    //Check if reset token exists
+    const isTokenExist = await pool.query('SELECT * FROM reset_password_token WHERE user_id = $1', [userId]);
+    if (isTokenExist.rows.length !== 0) {
+        await pool.query('DELETE FROM reset_password_token WHERE user_id = $1', [userId]);
+    };
+
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const hashToken = await bcrypt.hash(resetToken, 10);
+
+    const insertToken = await pool.query('INSERT INTO reset_password_token(user_id, token) VALUES($1, $2)', [userId, hashToken]);
+    
+    //Send reset password link
+    await sendResetPasswordEmail(email, resetToken);
+
+    return res.status(200).json({message: 'Reset password link has seen to your email'})
+}
+
+module.exports = { loginUser, registerUser, updateRefreshToken, resetPasswordToken };
