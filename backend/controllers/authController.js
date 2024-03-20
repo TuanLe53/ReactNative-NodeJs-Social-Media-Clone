@@ -132,7 +132,7 @@ const resetPasswordToken = async (req, res) => {
     const insertToken = await pool.query('INSERT INTO reset_password_token(user_id, token) VALUES($1, $2)', [userId, hashToken]);
     
     //Send reset password link
-    await sendResetPasswordEmail(email, resetToken);
+    await sendResetPasswordEmail(email, resetToken, userId);
 
     return res.status(200).json({message: 'Reset password link has seen to your email'})
 }
