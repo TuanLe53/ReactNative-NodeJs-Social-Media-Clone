@@ -15,11 +15,11 @@ export default function HomeScreen() {
     const setPosts = useBoundStore((state) => state.setPosts);
 
     const fetchPosts = async () => {
-        const res = await fetch(`${API_URL.POST}`, {
+        const res = await fetch(`${API_URL.POST}?page=1&limit=2`, {
             headers: { 'Authorization': 'Bearer ' + String(authState.authToken) }
         })
         const data = await res.json()
-        setPosts(data)
+        setPosts(data.data)
         return data
     }
 
