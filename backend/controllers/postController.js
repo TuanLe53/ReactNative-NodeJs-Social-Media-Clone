@@ -1,34 +1,30 @@
 const pool = require('../db/db');
 
 const getPosts = async (req, res) => {
-    // const totalPost = (await pool.query('SELECT COUNT(*) FROM post')).rows[0].count;
-    // const perPage = 10;
-    // const pages = Math.ceil(Number(totalPost) / perPage);
-    
-    // let page = parseInt(req.query.page);
-    // let offset = (page - 1) * perPage;
-
-    // let result = pool.query('SELECT * FROM post ')
     const { id } = req.user;
 
     let posts = [];
-    const result = await pool.query('SELECT post.*, account.username, account.avatar FROM post LEFT JOIN account ON post.created_by = account.id ORDER BY created_at');
-    
-    await Promise.all(result.rows.map(async (post) => {
-        let data = await pool.query('SELECT img_url FROM post_image WHERE post_id = $1', [post.id]);
-        post.images = data.rows;
+    await Promise.all(res.paginatedResults['data'].map(async (item) => {
+        const postQuery = await pool.query('SELECT post.*, account.username, account.avatar FROM post LEFT JOIN account ON post.created_by = account.id WHERE post.id = $1 ORDER BY created_at', [item.id]);
+        const post = postQuery.rows[0];
+        
+        const imagesQuery = await pool.query('SELECT img_url FROM post_image WHERE post_id = $1', [item.id]);
+        post.images = imagesQuery.rows;
 
-        let like = await pool.query('SELECT * FROM like_post WHERE post_id = $1 AND user_id = $2', [post.id, id]);
-        if (like.rows.length === 0) {
-            post.is_like = false
-        } else {
+        const likeQuery = await pool.query('SELECt * FROM like_post WHERE post_id = $1 AND user_id = $2', [item.id, id]);
+        if (likeQuery.rows.length !== 0) {
             post.is_like = true;
+        } else {
+            post.is_like = false;
         }
 
         posts.push(post)
-    }))
+    }));
 
-    res.status(200).json(posts);
+    //Update data with new posts array
+    res.paginatedResults['data'] = posts;
+
+    res.status(200).json(res.paginatedResults);
 }
 
 const getPostsByUser = async (req, res) => {
