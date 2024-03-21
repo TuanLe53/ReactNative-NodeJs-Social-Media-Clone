@@ -1,11 +1,12 @@
 const express = require('express');
 const verifyJWT = require('../middlewares/verifyJWT');
+const paginatedResults = require('../middlewares/paginatedResults');
 const postController = require('../controllers/postController');
 const uploadImage = require('../middlewares/uploadImage');
 
 const router = express.Router();
 
-router.get('', verifyJWT, postController.getPosts);
+router.get('', verifyJWT, paginatedResults('post'), postController.getPosts);
 router.post('', verifyJWT, uploadImage.uploadPostPhoto.array('photos', 4), postController.createPost);
 router.get('/:post_id', verifyJWT, postController.getPostByID);
 router.delete('/:post_id', verifyJWT, postController.DeletePost);
