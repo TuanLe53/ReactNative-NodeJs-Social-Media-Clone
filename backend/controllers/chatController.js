@@ -19,7 +19,6 @@ const getRoomsByUser = async (req, res) => {
         res.status(200).json(rooms);
 
     } catch (err) {
-        console.log(err)
         res.status(500).json({error: 'Server error'})
     }
 }
@@ -38,7 +37,6 @@ const getRoomBetweenUsers = async (req, res) => {
         res.status(200).json(roomId);
 
     } catch (err) {
-        console.log(err)
         res.status(500).json({ error: 'Server error' });
     }
 }
@@ -60,7 +58,6 @@ const createRoom = async (req, res) => {
         res.status(201).json(roomId);
 
     } catch (err) {
-        console.log(err)
         res.status(500).json({message: 'Server error'})
     }
 }
@@ -74,7 +71,6 @@ const getMessage = async (req, res) => {
 
         res.status(200).json(messages)
     } catch (err) {
-        console.log(err)
         res.status(500).json({error: 'Server error'})
     }
 };
