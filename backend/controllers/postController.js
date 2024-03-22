@@ -69,9 +69,11 @@ const getPostByID = async (req, res) => {
     try {
         const postData = await pool.query('SELECT post.*, account.username, account.avatar FROM post LEFT JOIN account ON post.created_by = account.id WHERE post.id=$1', [post_id]);
         const post = postData.rows[0];
+        if (post.length === 0) return res.status(404).json({ message: 'Post not found' });
         
         const imgData = await pool.query('SELECT img_url FROM post_image WHERE post_id = $1', [post_id]);
         const images = imgData.rows;
+        post.images = images;
         
         const likeData = await pool.query('SELECT * FROM like_post WHERE post_id = $1 AND user_id = $2', [post_id, id])
         if (likeData.rows.length === 0) {
@@ -80,14 +82,9 @@ const getPostByID = async (req, res) => {
             post.is_like = true;
         }
 
-        if (post.length === 0) return res.status(404).json({ message: 'Post not found' });
-
-        post.images = images
-        
         res.status(200).json(post)
         
     } catch (err) {
-        console.log(err);
         res.status(500).json({ error: 'Database error' });
     }
 }
