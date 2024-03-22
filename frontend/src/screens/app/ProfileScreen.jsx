@@ -20,11 +20,11 @@ function UserPosts({ id }) {
     const setUserPosts = useBoundStore((state) => state.setUserPosts);
 
     const fetchUserPosts = async () => {
-        const res = await fetch(`${API_URL.POST}/user/${id}`, {
+        const res = await fetch(`${API_URL.POST}/user/${id}?page=1&limit=1`, {
             headers: { 'Authorization': `Bearer ${String(authState.authToken)}` }
         })
         const data = await res.json()
-        setUserPosts(data)
+        setUserPosts(data.data)
         return data
     };
 
