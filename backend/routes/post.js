@@ -12,6 +12,6 @@ router.get('/:post_id', verifyJWT, postController.getPostByID);
 router.delete('/:post_id', verifyJWT, postController.DeletePost);
 router.post('/:post_id/like', verifyJWT, postController.LikePost);
 router.delete('/:post_id/like', verifyJWT, postController.UnlikePost);
-router.get('/user/:user_id', verifyJWT, postController.getPostsByUser);
+router.get('/user/:user_id', verifyJWT, paginatedResults('postByUser'), postController.getPostsByUser);
 
 module.exports = router;
