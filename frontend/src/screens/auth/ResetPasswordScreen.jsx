@@ -43,6 +43,7 @@ export default function ResetPasswordScreen({navigation, route}) {
         })
         const data = await res.json()
         if (res.status === 200) {
+            alert('Password is changed. Please login')
             navigation.navigate('Login')
         } else {
             alert(data.error)
