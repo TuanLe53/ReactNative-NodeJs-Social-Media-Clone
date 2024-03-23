@@ -5,6 +5,7 @@ import { useState } from 'react';
 import isEmail from 'validator/lib/isEmail';
 import API_URL from '../../api/api_url';
 import { useTheme } from '@react-navigation/native';
+import { styles } from './LoginScreen';
 
 export default function RegisterScreen({navigation}) {
     const [username, setUsername] = useState('');
@@ -65,17 +66,49 @@ export default function RegisterScreen({navigation}) {
         }
     }
     return (
-        <SafeAreaView forceInset={{ top: 'always' }}>
-            <Text style={{color: colors.text, fontSize: 30, textAlign: 'center'}}>Register</Text>
-            <Text style={{color: colors.text, paddingLeft: 10}}>Username</Text>
-            <Input placeholder='Enter your username' value={username} onChangeText={setUsername} inputStyle={{color: colors.text}}/>
-            <Text style={{color: colors.text, paddingLeft: 10}}>Email</Text>
-            <Input placeholder='Enter your email' value={email} onChangeText={setEmail} inputStyle={{color: colors.text}}/>
-            <Text style={{color: colors.text, paddingLeft: 10}}>Password</Text>
-            <Input placeholder='Enter your password' value={password1} onChangeText={setPassword1} secureTextEntry={true} inputStyle={{color: colors.text}}/>
-            <Text style={{color: colors.text, paddingLeft: 10}}>Confirm password</Text>
-            <Input placeholder='Confirm your password' value={password2} onChangeText={setPassword2} secureTextEntry={true} inputStyle={{color: colors.text}}/>
-            <Button title={'Register'} onPress={handleRegister}/>
+        <SafeAreaView forceInset={{ top: 'always' }} style={styles.container}>
+            <Text style={[{ color: colors.text}, styles.title]}>Register</Text>
+            
+            <Text style={[{color: colors.text}, styles.label]}>Username</Text>
+            <Input
+                placeholder='Enter your username'
+                value={username}
+                onChangeText={setUsername}
+                inputStyle={{ color: colors.text }}
+            />
+            
+            <Text style={[{ color: colors.text }, styles.label]}>Email</Text>
+            <Input
+                placeholder='Enter your email'
+                value={email}
+                onChangeText={setEmail}
+                inputStyle={{ color: colors.text }}
+            />
+            
+            <Text style={[{ color: colors.text }, styles.label]}>Password</Text>
+            <Input
+                placeholder='Enter your password'
+                value={password1}
+                onChangeText={setPassword1}
+                secureTextEntry={true}
+                inputStyle={{ color: colors.text }}
+            />
+            
+            <Text style={[{ color: colors.text }, styles.label]}>Confirm password</Text>
+            <Input
+                placeholder='Confirm your password'
+                value={password2}
+                onChangeText={setPassword2}
+                secureTextEntry={true}
+                inputStyle={{ color: colors.text }}
+            />
+        
+            <Button
+                title={'Register'}
+                onPress={handleRegister}
+                buttonStyle={{marginHorizontal: 10}}
+            />
+        
         </SafeAreaView>
     )
 }
