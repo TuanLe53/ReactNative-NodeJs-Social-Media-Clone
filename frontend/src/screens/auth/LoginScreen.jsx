@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Button, Input } from '@rneui/themed';
 import SafeAreaView from 'react-native-safe-area-view';
 import isEmail from 'validator/lib/isEmail'
@@ -64,16 +64,50 @@ export default function LoginScreen({ navigation }) {
     }
 
     return (
-        <SafeAreaView forceInset={{top: 'always'}}>
-            <Text style={[styles.title, {color: colors.text}]}>Login</Text>
-            <Text style={[{color: colors.text, paddingLeft: 10}]}>Email</Text>
-            <Input placeholder='Enter your email' value={email} onChangeText={setEmail} inputStyle={[{color: colors.text}]}/>
-            <Text style={[{color: colors.text, paddingLeft: 10}]}>Password</Text>
-            <Input placeholder='Enter your password' value={password} onChangeText={setPassword} secureTextEntry={true}  inputStyle={[{color: colors.text}]}/>
-            <Button title='Login' onPress={onLogin} />
-            <Text style={[{ color: colors.text }]}>Don't have account yet? <Pressable onPress={() => navigation.navigate('Register')}><Text style={{ color: colors.icon }}>Register</Text></Pressable></Text>
-            <Pressable onPress={() => setIsOpen(!isOpen)}><Text>Forgot password?</Text></Pressable>
-            <Dialog isVisible={isOpen}>
+        <SafeAreaView forceInset={{ top: 'always' }} style={styles.container}>
+            <Text style={[styles.title, { color: colors.text }]}>Login</Text>
+            
+            <Text style={[{color: colors.text}, styles.label]}>Email</Text>
+            <Input
+                placeholder='Enter your email'
+                value={email}
+                onChangeText={setEmail}
+                inputStyle={[{ color: colors.text }]}
+            />
+
+            <Text style={[{color: colors.text}, styles.label]}>Password</Text>
+            <Input
+                placeholder='Enter your password'
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={true}
+                inputStyle={[{ color: colors.text }]}
+            />
+            
+            <Button
+                title='Login'
+                onPress={onLogin}
+                buttonStyle={{marginHorizontal: 10}}
+            />
+
+            <View style={{margin: 10}}>
+                <Text>Don't have an account yet? <Text
+                    style={{ color: colors.icon }}
+                    onPress={() => navigation.navigate('Register')}
+                >
+                    Register.
+                </Text>
+                </Text>
+
+                <Text
+                    onPress={() => setIsOpen(!isOpen)}
+                    style={{color: colors.icon}}
+                >
+                    Forgot password?
+                </Text>
+            </View>
+            
+            <Dialog isVisible={isOpen} overlayStyle={{backgroundColor: colors.background}}>
                 <Dialog.Title title="Enter your account's email "/> 
                 <Input value={resetEmail} onChangeText={setResetEmail} />
                 <Dialog.Actions>
@@ -87,13 +121,24 @@ export default function LoginScreen({ navigation }) {
                     />
                 </Dialog.Actions>
             </Dialog>
+
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginTop: 100
+    },
     title: {
         fontSize: 30,
+        fontWeight: '700',
         textAlign: 'center'
+    },
+    label: {
+        fontSize: 20,
+        fontWeight: '400',
+        paddingLeft: 10
     }
 });
