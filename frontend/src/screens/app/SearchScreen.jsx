@@ -5,9 +5,15 @@ import { ActivityIndicator, FlatList, Text } from 'react-native';
 import API_URL from '../../api/api_url';
 import AuthContext from '../../context/AuthContext';
 import UserComponent from '../../components/UserComponent';
+import ThemeContext from '../../context/ThemeContext';
+import { useTheme } from '@react-navigation/native';
 
 export default function SearchScreen() {
     const { authState } = useContext(AuthContext);
+
+    const { theme } = useContext(ThemeContext);
+    const { colors } = useTheme();
+
     const [isLoading, setIsLoading] = useState(true);
     const [apiUser, setApiUser] = useState([]);
     const [username, setUsername] = useState('');
@@ -43,6 +49,8 @@ export default function SearchScreen() {
                 value={username}
                 onChangeText={text => handleChange(text)}
                 round
+                containerStyle={theme === 'light' && { backgroundColor: colors.icon, borderColor: colors.icon }}
+                inputContainerStyle={theme === 'light' && {backgroundColor: 'white'}}
             />
             {isLoading ?
                 <ActivityIndicator />
