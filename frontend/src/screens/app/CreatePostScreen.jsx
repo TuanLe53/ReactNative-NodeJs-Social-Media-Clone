@@ -1,18 +1,24 @@
 import SafeAreaView from 'react-native-safe-area-view';
-import { Button, Image, StyleSheet, Text, TextInput, View, ScrollView, FlatList } from 'react-native';
+import { Image, StyleSheet, Text, TextInput, View, ScrollView, Pressable } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
 import mime from 'mime';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import API_URL from '../../api/api_url';
 import AuthContext from '../../context/AuthContext';
 import { useTheme } from '@react-navigation/native';
+import { Button } from '@rneui/themed';
 
 export default function CreatePostScreen({ navigation }) {
     const { authState, user } = useContext(AuthContext);
     const [content, setContent] = useState('');
     const [photos, setPhotos] = useState([]);
     
+    const inputRef = useRef(null);
+    const focusTextInput = () => {
+        inputRef.current.focus();
+    }
+
     const { colors } = useTheme();
 
     const pickImage = async () => {
@@ -69,38 +75,33 @@ export default function CreatePostScreen({ navigation }) {
     , [navigation])
 
     return (
-        <SafeAreaView forceInset={{ top: 'always' }}>
+        <SafeAreaView forceInset={{ top: 'always' }} style={styles.container}>
             <View style={[styles.header, {backgroundColor: colors.icon}]}>
                 <Ionicons
                     name='arrow-back'
-                    size={34}
+                    color={'white'}
+                    size={33}
                     onPress={() => navigation.goBack()}
                 />
-                <Text style={[styles.title, {color: colors.text}]}>Create your post</Text>
+                <Text style={[styles.title, {color: 'white'}]}>Create your post</Text>
             </View>
-            <View style={styles.form}>
+
+            <Pressable
+                style={styles.form}
+                onPress={focusTextInput}
+            >
                 <TextInput
-                    placeholder='Enter your content'
+                    placeholder='Enter your content here...'
                     placeholderTextColor={colors.text}
                     multiline={true}
                     value={content}
-                    style={{ color: colors.text }}
+                    style={{ color: colors.text, fontSize: 18 }}
                     onChangeText={setContent}
+                    ref={inputRef}
                 />
-            </View>
-            <View>
-                {photos.length !== 0 &&
-                    <ScrollView horizontal={true} style={{marginLeft: 40}}>
-                        {photos.map((photo, index) => (
-                            <Image
-                                source={{uri: photo.uri}}
-                                resizeMode='contain'
-                                key={index}
-                                style={{height: 100, width: 100}}
-                            />
-                        ))}
-                    </ScrollView>
-                }
+            </Pressable>
+
+            <View style={styles.imgContainer}>
                 <Ionicons
                     name='image'
                     size={30}
@@ -108,13 +109,28 @@ export default function CreatePostScreen({ navigation }) {
                     onPress={pickImage}
                     style={{marginLeft: 40}}
                 />
+                {photos.length !== 0 &&
+                    <ScrollView horizontal={true}>
+                        {photos.map((photo, index) => (
+                            <Image
+                                source={{uri: photo.uri}}
+                                resizeMode='contain'
+                                key={index}
+                                style={{height: 200, width: 200}}
+                            />
+                        ))}
+                    </ScrollView>
+                }
             </View>
-            <Button title='Create' onPress={createPost} />
+            <Button title='Create' onPress={createPost} buttonStyle={{marginHorizontal: 20}} />
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
     header: {
         display: 'flex',
         flexDirection: 'row',
@@ -131,9 +147,13 @@ const styles = StyleSheet.create({
         marginTop: 10,
         borderLeftWidth: 1,
         borderLeftColor: 'red',
-        maxHeight: 200
+        height: 300,
     },
-    img_container: {
-        backgroundColor: 'red'
+    imgContainer: {
+        marginVertical: 10,
+        marginLeft: 10,
+        height: 200,
+        paddingTop: 5
     }
+
 })
