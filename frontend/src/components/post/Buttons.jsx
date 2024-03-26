@@ -7,7 +7,7 @@ import { useRoute, useTheme } from '@react-navigation/native';
 import API_URL from '../../api/api_url';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
-export default function DropDownBtns({data}) {
+export default function DropDownBtn({data}) {
     const { user, authState } = useContext(AuthContext);
     
     const { colors } = useTheme();
@@ -21,7 +21,6 @@ export default function DropDownBtns({data}) {
     const route = useRoute();
 
     const toggleOpen = () => {
-        console.log('Toggle open')
         setIsOpen(!isOpen)
     };
 
