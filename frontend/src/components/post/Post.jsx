@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LikeBtn from "../LikeBtn";
 import { useState } from "react";
 import AvatarCustom from "../AvatarCustom";
-import Buttons from "./Buttons";
+import DropDownBtn from "./Buttons";
 
 const screenWidth = Dimensions.get('screen').width;
 const screenHeight = Dimensions.get('screen').height;
@@ -27,9 +27,42 @@ export default function Post(props) {
         setImgIndex(index)
         setVisible(true)
     }
-
-    const [isOpen, setIsOpen] = useState(false);
     
+    const renderImages = () => {
+        if (data.images.length === 0) {
+            return;
+        }
+        if (data.images.length === 1) {
+            return (
+                <View style={styles.img_container}>
+                    <Image
+                        source={{ uri: data.images[0].img_url }}
+                        style={styles.img_medium}
+                        resizeMode='contain'
+                    />
+                </View>
+            )
+        } else {
+            return (
+                <View style={styles.img_container}>
+                    <View style={styles.img_wrapper}>
+                    {data.images.map((img, index) =>
+                        <Pressable
+                            key={index}
+                            onPress={() => showImage(data.images.indexOf(img))}>
+                            <Image
+                                source={{ uri: img.img_url }}
+                                key={img.img_url}
+                                style={styles.img_small}
+                            />
+                        </Pressable>
+                    )}
+                    </View>
+                </View>
+            )
+        }
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -39,17 +72,7 @@ export default function Post(props) {
                     username: data.username,
                     created_at: data.created_at
                 }} />
-                <Ionicons
-                    name='ellipsis-horizontal'
-                    size={24}
-                    color={colors.icon_secondary}
-                    onPress={() => setIsOpen(!isOpen)}
-                />
-                {isOpen &&
-                    <View>
-                        <Buttons data={data} />
-                    </View>    
-                }
+                <DropDownBtn data={data} />
             </View>
 
             <Pressable onPress={() => navigation.navigate('Post', { id: data.id })}>
@@ -67,49 +90,26 @@ export default function Post(props) {
                     :
                 <Text style={[styles.content,{color: colors.text}]}>{data.content}</Text>
                 }
-                <View style={styles.img_container}>
-                    {data.images.length === 1
-                        ?
-                        <Image
-                            source={{ uri: data.images[0].img_url }}
-                            style={styles.img_medium}
-                            resizeMode='contain'
-                        />
-                        :
-                        <View style={styles.img_wrapper}>
-                            {data.images.map((img, index) => 
-                                <Pressable
-                                    key={index}
-                                    onPress={() => showImage(data.images.indexOf(img))}>
-                                    <Image
-                                        source={{ uri: img.img_url }}
-                                        key={img.img_url}
-                                        style={styles.img_small}
-                                    />
-                                </Pressable>
-                            )}
-                        </View>
-                    }
-                </View>
+                {renderImages()}
             </Pressable>
             <View style={styles.footer}>
-            <LikeBtn
-                data={{
-                    is_like: data.is_like,
-                    post_id: data.id
-                }}
-            />
-            <Ionicons
-                name='chatbox-outline'
-                size={24}
-                onPress={() => navigation.navigate('Post', { id: data.id })}
-                color={colors.icon_secondary}
-            />
-            <Ionicons
-                name='share-social-outline'
-                size={24}
-                color={colors.icon_secondary} 
-            />
+                <LikeBtn
+                    data={{
+                        is_like: data.is_like,
+                        post_id: data.id
+                    }}
+                />
+                <Ionicons
+                    name='chatbox-outline'
+                    size={24}
+                    onPress={() => navigation.navigate('Post', { id: data.id })}
+                    color={colors.icon_secondary}
+                />
+                <Ionicons
+                    name='share-social-outline'
+                    size={24}
+                    color={colors.icon_secondary} 
+                />
             </View>
             <Overlay
                 overlayStyle={styles.overlay}
@@ -158,12 +158,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
-    btn_group: {
-        backgroundColor: 'red'
-    },
     content: {
         fontSize: 20,
-        marginLeft: 40,
+        marginLeft: 45,
         paddingBottom: 12,
     },
     expand_btn: {
