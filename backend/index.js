@@ -1,7 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
 
-
 const app = express();
 
 require('dotenv').config();
@@ -16,7 +15,6 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use('/auth', require('./routes/auth'));
 app.use('/profile', require('./routes/profile'));
 app.use('/post', require('./routes/post'));
-// app.use('/comment', require('./routes/comment'));
 app.use('/chat', require('./routes/chat'));
 
 app.use('/images/avatar', express.static('storage/avatar'));
