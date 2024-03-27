@@ -26,7 +26,8 @@ const getReply = async (req, res) => {
 
 const createComment = async (req, res) => {
     const { id } = req.user;
-    const { post_id, comment, parent_id } = req.body;
+    const { post_id } = req.params;
+    const { comment, parent_id } = req.body;
 
     let parentID = parent_id ? parent_id : null;
 
