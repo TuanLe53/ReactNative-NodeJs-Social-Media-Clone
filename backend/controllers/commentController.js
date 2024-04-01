@@ -3,14 +3,8 @@ const pool = require('../db/db');
 const getComment = async (req, res) => {
     const { post_id } = req.params;
 
-    const commentsData = await pool.query('SELECT comment.id, comment, created_by, created_at, parent_id, account.username, account.avatar FROM comment LEFT JOIN account ON comment.created_by = account.id WHERE post_id = $1 AND parent_id IS NULL', [post_id]);
+    const commentsData = await pool.query('SELECT comment.id, comment, created_by, created_at, parent_id, account.username, account.avatar FROM comment LEFT JOIN account ON comment.created_by = account.id WHERE post_id = $1', [post_id]);
     const comments = commentsData.rows;
-
-
-    await Promise.all(comments.map(async (comment) => {
-        let reply = await pool.query('SELECT id FROM comment WHERE parent_id = $1', [comment.id]);
-        comment.has_reply = reply.rows.length !== 0;
-    }))
 
     res.status(200).json(comments);
 }
