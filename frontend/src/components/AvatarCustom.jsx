@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     info: {
-        paddingLeft: 5
+        marginLeft: 10
     },
     username: {
         fontSize: 18,
