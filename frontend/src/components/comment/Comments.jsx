@@ -1,16 +1,19 @@
 import { useContext, useState } from 'react';
 import API_URL from '../../api/api_url';
 import { useQuery } from '@tanstack/react-query';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { Text } from '@rneui/base';
 import AuthContext from '../../context/AuthContext';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
+import { useTheme } from '@react-navigation/native';
 
 export default function Comments({ post_id }) {
     const { authState } = useContext(AuthContext);
     const [comments, setComments] = useState([]);
     const [activeComment, setActiveComment] = useState(null);
+
+    const colors = useTheme();
 
     const parentComments = comments.filter(
         (comment) => comment.parent_id === null
@@ -65,8 +68,10 @@ export default function Comments({ post_id }) {
 
     return (
         <View>
-            <Text>Comments</Text>
-            <CommentForm createComment={createComment} />
+            <View style={styles.header_section}>
+                <Text style={[{color: colors.text}, styles.header]}>Comments</Text>
+                <CommentForm createComment={createComment} />
+            </View>
             {parentComments.map((comment) => (
                 <Comment
                     key={comment.id}
@@ -80,3 +85,15 @@ export default function Comments({ post_id }) {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    header_section: {
+        borderBottomColor: 'gray',
+        borderBottomWidth: 1,
+        marginBottom: 10
+    },
+    header: {
+        fontSize: 24,
+        marginLeft: 10
+    }
+})
