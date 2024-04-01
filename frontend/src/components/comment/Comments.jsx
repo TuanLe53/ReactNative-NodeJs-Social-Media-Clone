@@ -1,72 +1,11 @@
 import { useContext, useState } from 'react';
 import API_URL from '../../api/api_url';
 import { useQuery } from '@tanstack/react-query';
-import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { Text } from '@rneui/base';
-import AvatarCustom from '../AvatarCustom';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useTheme } from '@react-navigation/native';
 import AuthContext from '../../context/AuthContext';
 import CommentForm from './CommentForm';
-
-function Comment({ comment, replies, activeComment, setActiveComment, createComment, parentId = null }) {
-    const [showReplies, setShowReplies] = useState(false);
-
-    const { colors } = useTheme();
-
-    const showReplyForm = activeComment && activeComment.id === comment.id;
-    const replyId = parentId ? parentId : comment.id;
-
-    return (
-        <View style={styles.container}>
-            <AvatarCustom data={{
-                avatar: comment.avatar,
-                created_by: comment.created_by,
-                created_at: comment.created_at,
-                username: comment.username,
-            }} />
-            <Text style={[styles.comment, {color: colors.text}]}>{comment.comment}</Text>
-            
-            <Ionicons
-                name='return-down-back'
-                size={24}
-                color={colors.icon_secondary}
-                style={{ alignSelf: 'flex-end' }}
-                onPress={() => setActiveComment({id: comment.id})}
-            />
-            {showReplyForm && (
-                <CommentForm createComment={(text) => createComment(text, replyId)}/>
-            )}
-
-            {replies.length > 0 &&
-                <View>
-                    {showReplies &&
-                    replies.map((reply) => (
-                        <Comment
-                            key={reply.id}
-                            comment={reply}
-                            replies={[]}
-                            setActiveComment={setActiveComment}
-                            activeComment={activeComment}
-                            parentId={reply.id}
-                        />))
-                    }
-                    <Pressable
-                        onPress={() => setShowReplies(!showReplies)}
-                        style={[styles.show_btn]}
-                    >
-                        <Text style={{color: colors.icon}}>{showReplies ? 'Hide' : 'More'}</Text>
-                        <Ionicons
-                            name={showReplies ? 'caret-up' : 'caret-down'}
-                            size={20}
-                            color={colors.icon}
-                        />
-                    </Pressable>
-                </View>
-            }
-        </View>
-    )
-}
+import Comment from './Comment';
 
 export default function Comments({ post_id }) {
     const { authState } = useContext(AuthContext);
@@ -141,19 +80,3 @@ export default function Comments({ post_id }) {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        paddingVertical: 10,
-        borderBottomColor: 'gray',
-        borderBottomWidth: 1
-    },
-    comment: {
-        marginLeft: 60,
-        fontSize: 17
-    },
-    show_btn: {
-        flexDirection: 'row',
-        marginLeft: 50
-    }
-});
