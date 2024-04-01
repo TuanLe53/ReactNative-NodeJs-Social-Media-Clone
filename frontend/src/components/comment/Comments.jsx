@@ -73,14 +73,15 @@ export default function Comments({ post_id }) {
                 <CommentForm createComment={createComment} />
             </View>
             {parentComments.map((comment) => (
-                <Comment
-                    key={comment.id}
-                    comment={comment}
-                    replies={getReplies(comment.id)}
-                    activeComment={activeComment}
-                    setActiveComment={setActiveComment}
-                    createComment={createComment}
-                />
+                <View key={comment.id} style={styles.comment}>
+                    <Comment
+                        comment={comment}
+                        replies={getReplies(comment.id)}
+                        activeComment={activeComment}
+                        setActiveComment={setActiveComment}
+                        createComment={createComment}
+                    />
+                </View>
             ))}
         </View>
     )
@@ -95,5 +96,11 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 24,
         marginLeft: 10
+    },
+    comment: {
+        borderColor: 'gray',
+        borderBottomWidth: 1,
+        paddingVertical: 8,
+        paddingHorizontal: 10
     }
 })
