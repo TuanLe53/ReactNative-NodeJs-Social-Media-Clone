@@ -73,7 +73,6 @@ const createPost = async (req, res) => {
     
     pool.query('INSERT INTO post(content, created_by) VALUES($1, $2) RETURNING id', [content, id], (err, result) => {
         if (err) {
-            console.log(err)
             return res.status(500).json({ message: 'Database error' });
         }
 
