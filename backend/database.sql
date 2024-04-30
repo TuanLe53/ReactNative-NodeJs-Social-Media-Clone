@@ -18,6 +18,11 @@ CREATE TABLE Refresh_Token(
     PRIMARY KEY (account_id)
 );
 
+CREATE TABLE notification_token(
+    user_id uuid NOT NULL UNIQUE REFERENCES account(id),
+    token VARCHAR NOT NULL UNIQUE
+);
+
 CREATE TABLE reset_password_token(
     user_id uuid NOT NULL UNIQUE REFERENCES account(id),
     token VARCHAR NOT NULL UNIQUE,
