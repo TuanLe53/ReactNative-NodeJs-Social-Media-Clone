@@ -1,0 +1,4 @@
+backend/storage/*
+backend/.env
+backend/node_modules
+google-services.json
