@@ -16,6 +16,7 @@ app.use('/auth', require('./routes/auth'));
 app.use('/profile', require('./routes/profile'));
 app.use('/post', require('./routes/post'));
 app.use('/chat', require('./routes/chat'));
+app.use('/notifications', require('./routes/notification'));
 
 app.use('/images/avatar', express.static('storage/avatar'));
 app.use('/images/cover', express.static('storage/cover'));
@@ -26,6 +27,8 @@ const server = app.listen(PORT, () => console.log(`Server is running on port: ${
 
 const { Server } = require('socket.io');
 const pool = require('./db/db');
+const pushMessageNotification = require('./services/notification');
+
 const io = new Server(server, {
     cors: {
         origin: 'http://localhost:3000'
@@ -49,6 +52,7 @@ io.on('connection', async (socket) => {
         const messQuery = await pool.query('INSERT INTO message(room_id, message_text, created_by) VALUES($1, $2, $3) RETURNING message_text AS content, created_at, created_by', [data.roomId, data.message, data.created_by])
         const message = messQuery.rows[0];
         io.to(data.roomId).emit('newMessage', message);
+        pushMessageNotification(data);
     })
 
     socket.on('disconnect', () => {
