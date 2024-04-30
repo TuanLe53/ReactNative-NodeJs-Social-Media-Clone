@@ -18,7 +18,8 @@ export default function SendMessage(props) {
         socket.emit('sendMessage', {
             roomId: id,
             message: message,
-            created_by: user.id
+            created_by: user.id,
+            username: user.username
         });
         setMessage('');
         Keyboard.dismiss();
