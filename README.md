@@ -10,6 +10,7 @@ A full-stack Social Media app built with ExpressJs, React Native and PostgreSQL.
 - Frontend: 
   - React Native
   - Expo
+  - Zustand
   - React Native Element
   - React Navigation
   - Socket.IO-client
@@ -22,13 +23,14 @@ A full-stack Social Media app built with ExpressJs, React Native and PostgreSQL.
 
 ## Features
 - JWT Authentication and Authorization
-- Allows the user to post images/text
-- Allows users to add comment
-- Allows users to edit profile and update avatar
-- Like feature
-- Follow feature
-- Real-time chat
-- Search user by username
+- Real-time Chat
+- Notification System
+- Profile Customization
+- Multimedia Posting
+- Interactive Commenting
+- Like Functionality
+- Follow Capability
+- User Search
 
 <!-- ## Installation
 
