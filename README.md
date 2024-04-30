@@ -30,9 +30,9 @@ A full-stack Social Media app built with ExpressJs, React Native and PostgreSQL.
 - Real-time chat
 - Search user by username
 
-## Installation
+<!-- ## Installation
 
 ```
 mkdir clone_folder
 cd clone_folder
-```
+``` -->
