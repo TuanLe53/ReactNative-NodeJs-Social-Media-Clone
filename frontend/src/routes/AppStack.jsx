@@ -10,6 +10,10 @@ import CreatePostScreen from '../screens/app/CreatePostScreen';
 import PostDetailScreen from '../screens/app/PostDetail';
 import ChatRoom from '../screens/app/ChatRoom';
 import { useTheme } from '@react-navigation/native';
+import { useContext, useEffect } from 'react';
+import { registerForPushNotificationsAsync } from '../utils/notification';
+import API_URL from '../api/api_url';
+import AuthContext from '../context/AuthContext';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -29,6 +33,26 @@ export default function AppStack() {
 
 function TabNavigator() {
     const { colors } = useTheme();
+    const { authState } = useContext(AuthContext);
+
+    useEffect(() => {
+
+        const assignToken = async (token) => {
+            let res = await fetch(`${API_URL.NOTIFICATION}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${String(authState.authToken)}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({token: token})
+            })
+            if (res.status !== 201) {
+                console.log("Error")
+            }
+        }
+
+        registerForPushNotificationsAsync().then((token) => assignToken(token))
+    },[])
 
     return (
         <Tab.Navigator
