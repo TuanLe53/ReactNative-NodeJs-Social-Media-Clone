@@ -4,16 +4,16 @@ A full-stack Social Media app built with ExpressJs, React Native and PostgreSQL.
 ## Screenshots
 
 ###### Homepage
-![Gif of walkthrough]
+![Gif of walkthrough](https://github.com/TuanLe53/ReactNative-NodeJs-Social-Media-Clone/blob/main/Screenshots/Screenshot_1714653639.png)
 
 ###### User Profile
-![Image of user profile]
+![Image of user profile](https://github.com/TuanLe53/ReactNative-NodeJs-Social-Media-Clone/blob/main/Screenshots/Screenshot_1714651862.png)
 
 ###### Post
-![Image of post]
+![Image of post](https://github.com/TuanLe53/ReactNative-NodeJs-Social-Media-Clone/blob/main/Screenshots/Screenshot_1714652055.png)
 
 ###### Chat
-![Image of chat]
+![Image of chat](https://github.com/TuanLe53/ReactNative-NodeJs-Social-Media-Clone/blob/main/Screenshots/Screenshot_1714652782.png)
 
 ###### 
 
