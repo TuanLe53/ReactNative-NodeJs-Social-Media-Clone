@@ -3,6 +3,17 @@ A full-stack Social Media app built with ExpressJs, React Native and PostgreSQL.
 
 ## Screenshots
 
+###### Homepage
+![Gif of walkthrough]
+
+###### User Profile
+![Image of user profile]
+
+###### Post
+![Image of post]
+
+###### Chat
+![Image of chat]
 
 ###### 
 
