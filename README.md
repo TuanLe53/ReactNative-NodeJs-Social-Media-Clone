@@ -14,6 +14,8 @@ A full-stack Social Media app built with ExpressJs, React Native and PostgreSQL.
 
 ###### Chat
 ![Image of chat](https://github.com/TuanLe53/ReactNative-NodeJs-Social-Media-Clone/blob/main/Screenshots/Screenshot_1714652782.png)
+<img src="https://github.com/TuanLe53/ReactNative-NodeJs-Social-Media-Clone/blob/main/Screenshots/Screenshot_1714652782.png" width="200" height="400" />
+
 
 ###### 
 
