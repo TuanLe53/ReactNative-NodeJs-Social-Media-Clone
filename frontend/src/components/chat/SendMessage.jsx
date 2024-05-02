@@ -68,7 +68,7 @@ export default function SendMessage(props) {
 
 const styles = StyleSheet.create({
     input: {
-        backgroundColor: 'gray',
+        backgroundColor: 'white',
         borderRadius: 9,
     }
 })
